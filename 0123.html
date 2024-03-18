@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    h1 {
+      border-bottom: 10px solid #84b9cb;
+    }
+
+    div {
+      width: 400px;
+      height: 500px;
+      background-color: #84b9cb;
+      color: #ffffff;
+      overflow-y: scroll;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>チャットボット</h1>
+  <p>　株式会社リクルートが提供しているAPI「A3RT」の「Talk API」を使ってチャットボットを作成しました。APIキーとメッセージを入力すると返答が表示されます。</p>
+  <p id="keyinput">APIキー <input type="text" id="apikey"></p>
+  <div>
+    <p id="msg"></p>
+  </div>
+  <p id="msginput">メッセージ <input type="text" id="talkmsg"> <button id="talkbtn" type="button">送信</button></p>
+  <h3>参考にしたサイト</h3>
+  <a href="https://crieit.net/posts/A3RT-Talk-API">Crieit『A3RTのTalk APIをブログ上で試す』2024年1月25日閲覧</a>
+</body>
+<script>
+  (() => {
+    txt = '';
+    function chat() {
+      $('button').click(() => {
+        usermsg = $('#talkmsg').val();
+        const params = {
+          apikey: $('#apikey').val(),
+          query: usermsg
+        };
+        $.post('https://api.a3rt.recruit.co.jp/talk/v1/smalltalk', params, (result) => {
+          s = result.status;
+          if (s == 0) {
+            txt += `<p>user:${usermsg}</p>`;
+            txt += `<p>API:${result.results[0].reply}</p>`;
+          }
+          else {
+            txt += `<p>エラーが発生しました</p>`;
+          }
+          $('#msg').html(txt);
+          $('div').scrollTop($('div')[0].scrollHeight);
+          $('#talkmsg').val('');
+        }, 'json');
+        return false;
+      });
+    };
+    if (document.readyState != 'loading') { chat() }
+    else { document.addEventListener('DOMContentLoaded', chat) };
+  })();
+</script>
+
+</html>
