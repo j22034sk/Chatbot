@@ -4,6 +4,7 @@ A3RTの「Talk API」を使ってチャットボットを作成しました。<b
 jQueryの練習として作成したため、コードはシンプルです。<br>
 ## 詳細
 - A3RT「Talk API」を使用
-- jQueryを使用
+- 使用言語はJavaScript(jQuery)
+  
 [クリックすると表示されます](https://j22034sk.github.io/Chatbot/) <br>
 ※APIキーを取得していないと利用できません。
